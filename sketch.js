@@ -1,6 +1,7 @@
 import pipe from '@ramda/pipe';
 import canvasSketch from 'canvas-sketch';
 import { lerp } from 'canvas-sketch-util/math';
+import random from 'canvas-sketch-util/random';
 
 const settings = {
   dimensions: [ 2048, 2048 ]
@@ -39,9 +40,9 @@ const drawGrid = context => points => {
   points.forEach(
     ([x, y]) => {
       context.beginPath();
-      context.arc(x, y, 50, Math.PI * 2, false);
-      context.lineWidth = 10;
-      context.strokeStyle = 'green';
+      context.arc(x, y, 10, Math.PI * 2, false);
+      context.lineWidth = 5;
+      context.strokeStyle = 'black';
       context.stroke();
     }
   );
@@ -55,11 +56,13 @@ const sketch = () => {
     // console.log(createGrid(3));
     // const grid = createGrid(3);
     // console.log((grid))
+    random.setSeed(100);
     pipe(
       createGrid,
       scaleGrid(settings.dimensions),
+      (points => points.filter(() => random.value() > 0.5)),
       drawGrid(context)
-    )(4);
+    )(30);
 
     // context.beginPath();
     // context.arc(width/2, height/2, 100, 0, Math.PI * 2);
