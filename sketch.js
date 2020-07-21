@@ -1,8 +1,13 @@
 import pipe from '@ramda/pipe';
-const canvasSketch = require('canvas-sketch');
+import canvasSketch from 'canvas-sketch';
+import { lerp } from 'canvas-sketch-util/math';
 
 const settings = {
   dimensions: [ 2048, 2048 ]
+};
+
+const view = {
+  margins: [ 300 ]
 };
 
 function createGrid(count) {
@@ -21,7 +26,13 @@ function createGrid(count) {
 }
 
 const scaleGrid = ([width, height]) => points => points.map(
-  ([x, y]) => ([x * width, y * height])
+  ([x, y]) => {
+    const [margin] = view.margins;
+    return [
+      lerp(margin, width - margin, x),
+      lerp(margin, height - margin, y),
+    ]
+  }
 );
 
 const drawGrid = context => points => {
@@ -44,10 +55,9 @@ const sketch = () => {
     // console.log(createGrid(3));
     // const grid = createGrid(3);
     // console.log((grid))
-    const grid = pipe(
+    pipe(
       createGrid,
       scaleGrid(settings.dimensions),
-      // console.log
       drawGrid(context)
     )(4);
 
