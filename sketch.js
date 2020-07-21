@@ -2,6 +2,7 @@ import pipe from '@ramda/pipe';
 import canvasSketch from 'canvas-sketch';
 import { lerp } from 'canvas-sketch-util/math';
 import random from 'canvas-sketch-util/random';
+import palettes from 'nice-color-palettes';
 
 const settings = {
   dimensions: [ 2048, 2048 ]
@@ -26,23 +27,29 @@ function createGrid(count) {
   return grid;
 }
 
+const palette = random.shuffle(
+  random.pick(palettes)
+  ).slice(0, 2);
+console.log(palette);
+
 const scaleGrid = ([width, height]) => points => points.map(
   ([x, y]) => {
     const [margin] = view.margins;
-    return [
-      lerp(margin, width - margin, x),
-      lerp(margin, height - margin, y),
-      Math.abs(random.gaussian()) * width / 180,
-    ]
+    return {
+      x: lerp(margin, width - margin, x),
+      y: lerp(margin, height - margin, y),
+      radius: Math.abs(random.gaussian()) * width / 120,
+      color: random.pick(palette)
+    }
   }
 );
 
 const drawGrid = context => points => {
   points.forEach(
-    ([x, y, radius]) => {
+    ({x, y, radius, color}) => {
       context.beginPath();
       context.arc(x, y, radius, Math.PI * 2, false);
-      context.fillStyle = 'indigo';
+      context.fillStyle = color;
       context.fill();
       // context.lineWidth = 5;
       // context.strokeStyle = 'black';
