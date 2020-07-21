@@ -32,18 +32,21 @@ const scaleGrid = ([width, height]) => points => points.map(
     return [
       lerp(margin, width - margin, x),
       lerp(margin, height - margin, y),
+      Math.abs(random.gaussian()) * width / 180,
     ]
   }
 );
 
 const drawGrid = context => points => {
   points.forEach(
-    ([x, y]) => {
+    ([x, y, radius]) => {
       context.beginPath();
-      context.arc(x, y, 10, Math.PI * 2, false);
-      context.lineWidth = 5;
-      context.strokeStyle = 'black';
-      context.stroke();
+      context.arc(x, y, radius, Math.PI * 2, false);
+      context.fillStyle = 'indigo';
+      context.fill();
+      // context.lineWidth = 5;
+      // context.strokeStyle = 'black';
+      // context.stroke();
     }
   );
 }
@@ -53,16 +56,13 @@ const sketch = () => {
     context.fillStyle = 'white';
     context.fillRect(0, 0, width, height);
 
-    // console.log(createGrid(3));
-    // const grid = createGrid(3);
-    // console.log((grid))
-    random.setSeed(100);
+    // random.setSeed(10);
     pipe(
       createGrid,
       scaleGrid(settings.dimensions),
       (points => points.filter(() => random.value() > 0.5)),
       drawGrid(context)
-    )(30);
+    )(20);
 
     // context.beginPath();
     // context.arc(width/2, height/2, 100, 0, Math.PI * 2);
