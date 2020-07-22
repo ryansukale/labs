@@ -27,35 +27,82 @@ function createGrid(count) {
   return grid;
 }
 
+const drawCircle = context => ({x, y, radius, fill}) => {
+  context.save();
+  context.beginPath();
+  context.arc(x, y, radius, Math.PI * 2, false);
+  context.fillStyle = fill;
+  context.fill();
+  context.restore();
+}
+
+const drawStroke = context => ({width, color}) => {
+  context.save();
+  context.lineWidth = width;
+  context.strokeStyle = color;
+  context.stroke();
+  context.restore();
+}
+
+const drawText = context => ({
+  x,
+  y,
+  rotation,
+  text,
+  fontSize,
+  fontFamily = "Helvetica",
+  fill
+}) => {
+  context.save();
+  context.font = `${fontSize} "${fontFamily}"`;
+  context.fillStyle = fill;
+  context.translate(x, y);
+  rotation && context.rotate(rotation);
+  context.fillText(text, 0, 0);
+  context.restore();
+}
+
 const palette = random.shuffle(
   random.pick(palettes)
   ).slice(0, 2);
 console.log(palette);
 
-const scaleGrid = ([width, height]) => points => points.map(
+const scaleGridCircle = ([width, height]) => points => points.map(
   ([x, y]) => {
     const [margin] = view.margins;
+    const radius = Math.abs(random.noise2D(x, y)) * .05;
+
     return {
       x: lerp(margin, width - margin, x),
       y: lerp(margin, height - margin, y),
-      radius: Math.abs(random.gaussian()) * width / 120,
-      color: random.pick(palette)
+      radius: radius * width,
+      // radius: Math.abs(0.01 + random.gaussian()) * 0.01 * width,
+      fill: random.pick(palette)
+    }
+  }
+);
+
+const scaleGridText = ([width, height]) => points => points.map(
+  ([x, y]) => {
+    const [margin] = view.margins;
+    const radius = Math.abs(random.noise2D(x, y)) * .05;
+
+    return {
+      x: lerp(margin, width - margin, x),
+      y: lerp(margin, height - margin, y),
+      radius: radius * width,
+      fill: random.pick(palette),
+      text: random.pick(['-','|']),
+      fontSize: `${radius * width}px`,
+      rotation: random.noise2D(x, y)
     }
   }
 );
 
 const drawGrid = context => points => {
-  points.forEach(
-    ({x, y, radius, color}) => {
-      context.beginPath();
-      context.arc(x, y, radius, Math.PI * 2, false);
-      context.fillStyle = color;
-      context.fill();
-      // context.lineWidth = 5;
-      // context.strokeStyle = 'black';
-      // context.stroke();
-    }
-  );
+  const drawCirc = drawCircle(context);
+  const drawT = drawText(context);
+  points.forEach(drawT);
 }
 
 const sketch = () => {
@@ -66,10 +113,10 @@ const sketch = () => {
     // random.setSeed(10);
     pipe(
       createGrid,
-      scaleGrid(settings.dimensions),
+      scaleGridText(settings.dimensions),
       (points => points.filter(() => random.value() > 0.5)),
       drawGrid(context)
-    )(20);
+    )(50);
 
     // context.beginPath();
     // context.arc(width/2, height/2, 100, 0, Math.PI * 2);
