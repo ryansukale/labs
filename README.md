@@ -4,10 +4,23 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-Run the canvas branch
+
 ```
+# Creating canvas file
+./node_modules/.bin/canvas-sketch sketch.js --new --open
+
+# Creating webgl script
+./node_modules/.bin/canvas-sketch webgl.js --new --template=three
+```
+
+```
+# Run the canvas script
 ./node_modules/.bin/canvas-sketch sketch.js --open
+
+# Run the webgl script
+./node_modules/.bin/canvas-sketch webgl.js --open
 ```
+
 
 ### `yarn start`
 

@@ -14,7 +14,8 @@
     "nice-color-palettes": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "three": "^0.118.3"
   },
   "scripts": {
     "start": "react-scripts start",
