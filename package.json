@@ -9,7 +9,8 @@
     "gsap": "^3.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "ozone-react": "git+https://rysukale@gitlab.com/rysukale/ozone-react.git#v0.1.3-rc.2"
   },
   "scripts": {
     "start": "react-scripts start",
