@@ -11,6 +11,9 @@ In the project directory, you can run:
 
 # Creating webgl script
 ./node_modules/.bin/canvas-sketch webgl.js --new --template=three
+
+# Creating shaders
+./node_modules/.bin/canvas-sketch shader.js --new --template=shader
 ```
 
 ```
@@ -19,6 +22,9 @@ In the project directory, you can run:
 
 # Run the webgl script
 ./node_modules/.bin/canvas-sketch webgl.js --open
+
+# Run the shaders script
+./node_modules/.bin/canvas-sketch shaders.js --open
 ```
 
 
