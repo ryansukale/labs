@@ -36,6 +36,11 @@ function getNumberRange(start, end) {
   return result;
 };
 
+function createFakeData(count) {
+  const items = getNumberRange(1, count);
+  return items;
+}
+
 export default () => {
   const gridRef = useRef();
 
@@ -45,7 +50,7 @@ export default () => {
   const firstSunday = getFirstSunday(weeks, closestSaturday);
 
   const rows = weeks;
-  const cols = 7;
+  const columns = 7;
 
   useEffect(() => {
     const gridNode = gridRef.current;
@@ -54,7 +59,7 @@ export default () => {
       .attr('width', 900)
       .attr('height', 300);
 
-    const data = getNumberRange(1, rows * cols);
+    const data = createFakeData(rows * columns);
     const cellWidth = 16;
     const cellHeight = 16;
     const cellX = (d, index) => cellWidth * Math.floor(index/7);
