@@ -27,6 +27,20 @@ In the project directory, you can run:
 ./node_modules/.bin/canvas-sketch shaders.js --open
 ```
 
+```
+# Export an image
+./node_modules/.bin/canvas-sketch webgl.js --output=tmp/
+# Export a sequence of images
+Cmd+Shift+S
+
+# Create a gif out of images
+canvas-sketch-mp4 tmp/
+
+# giftool.surge.sh
+
+```
+  
+
 
 ### `yarn start`
 
