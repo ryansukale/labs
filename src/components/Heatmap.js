@@ -9,7 +9,7 @@ const addDays = days => date => {
   return result;
 };
 
-function getClosestSaturday(date) {
+function getDaysUntilSaturday(date) {
   if (isSaturday(date)) {
     return date;
   }
@@ -19,38 +19,56 @@ function getClosestSaturday(date) {
   return addDays(daysToAdd)(date);
 }
 
+function getDaysBetween(start, end) {
+  return (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+}
+
 function getFirstSunday(weeks, date) {
   const days = 7 * weeks - 1;
   return addDays(-days)(date);
 }
+
+function getNumberRange(start, end) {
+  let result = [];
+  for (let i = start; i <= end; i++) {
+    result.push(i);
+  }
+  return result;
+};
 
 export default () => {
   const gridRef = useRef();
 
   const weeks = 52;
   const today = new Date();
-  const closestSaturday = getClosestSaturday(today);
+  const closestSaturday = getDaysUntilSaturday(today);
   const firstSunday = getFirstSunday(weeks, closestSaturday);
 
   const rows = weeks;
   const cols = 7;
 
   useEffect(() => {
-    const gridNode = gridRef.current
+    const gridNode = gridRef.current;
     const svg = d3.select(gridNode)
       .append('svg')
-      .attr('width', 500)
+      .attr('width', 900)
       .attr('height', 300);
 
-    const data = [1, 2, 3, 4, 5, 6, 7];
+    const data = getNumberRange(1, rows * cols);
+    const cellWidth = 16;
+    const cellHeight = 16;
+    const cellX = (d, index) => cellWidth * Math.floor(index/7);
+    const cellY = (d, index) => cellHeight * Math.floor(index%7);
+
     svg.selectAll('rect')
       .data(data)
       .enter()
       .append('rect')
-      .attr('width', 20)
-      .attr('height', 20)
-      .attr('fill', 'gray')
-      .attr('y', (d) => d * 22)
+      .attr('width', cellWidth - 2)
+      .attr('height', cellHeight - 2)
+      .attr('fill', '#cacaca')
+      .attr('x', cellX)
+      .attr('y', cellY);
   }, []);
 
   return (
