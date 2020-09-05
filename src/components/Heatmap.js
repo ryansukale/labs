@@ -1,6 +1,11 @@
 import React, {useEffect, useRef} from 'react';
 import * as d3 from "d3";
 
+import random from 'canvas-sketch-util/random';
+
+const randomizer = random.createRandom(25);
+// https://github.com/mattdesl/canvas-sketch-util/blob/master/docs/random.md
+
 const isSaturday = date => date.getDay() === 6;
 
 const addDays = days => date => {
@@ -38,7 +43,12 @@ function getNumberRange(start, end) {
 
 function createFakeData(count) {
   const items = getNumberRange(1, count);
-  return items;
+  return items.map((day) => {
+    return {
+      dayInRange: day,
+      impressions: Math.floor(randomizer.range(0, 11))
+    };
+  });
 }
 
 export default () => {
@@ -58,12 +68,21 @@ export default () => {
       .append('svg')
       .attr('width', 900)
       .attr('height', 300);
+    
+    const colors = {
+      min: '#cacaca',
+      max: 'blue'
+    };
 
     const data = createFakeData(rows * columns);
+    const colorScale = d3.scaleLinear()
+      .domain([0, 10])
+      .range([colors.min, colors.max]);
+
     const cellWidth = 16;
     const cellHeight = 16;
-    const cellX = (d, index) => cellWidth * Math.floor(index/7);
-    const cellY = (d, index) => cellHeight * Math.floor(index%7);
+    const cellX = (_, index) => cellWidth * Math.floor(index/7);
+    const cellY = (_, index) => cellHeight * Math.floor(index%7);
 
     svg.selectAll('rect')
       .data(data)
@@ -71,7 +90,7 @@ export default () => {
       .append('rect')
       .attr('width', cellWidth - 2)
       .attr('height', cellHeight - 2)
-      .attr('fill', '#cacaca')
+      .attr('fill', d => colorScale(d.impressions))
       .attr('x', cellX)
       .attr('y', cellY);
   }, []);
