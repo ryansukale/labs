@@ -1,6 +1,8 @@
 import React, {useEffect, useRef} from 'react';
 import * as d3 from "d3";
 
+import createHeatmap from '../lib/viz/createHeatmap';
+
 import random from 'canvas-sketch-util/random';
 
 const randomizer = random.createRandom(25);
@@ -14,6 +16,10 @@ const addDays = days => date => {
   return result;
 };
 
+function getDaysBetween(start, end) {
+  return (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+}
+
 function getDaysUntilSaturday(date) {
   if (isSaturday(date)) {
     return date;
@@ -22,10 +28,6 @@ function getDaysUntilSaturday(date) {
   const daysToAdd = 6 - date.getDay();
 
   return addDays(daysToAdd)(date);
-}
-
-function getDaysBetween(start, end) {
-  return (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
 }
 
 function getFirstSunday(weeks, date) {
@@ -62,38 +64,16 @@ export default () => {
   const rows = weeks;
   const columns = 7;
 
+  const data = createFakeData(rows * columns).map(d => ({
+    value: d.impressions
+  }));
+
   useEffect(() => {
-    const gridNode = gridRef.current;
-    const svg = d3.select(gridNode)
-      .append('svg')
-      .attr('width', 900)
-      .attr('height', 300);
-    
-    const colors = {
-      min: '#cacaca',
-      max: 'blue'
-    };
-
-    const data = createFakeData(rows * columns);
-    const colorScale = d3.scaleLinear()
-      .domain([0, 10])
-      .range([colors.min, colors.max]);
-
-    const cellWidth = 16;
-    const cellHeight = 16;
-    const cellX = (_, index) => cellWidth * Math.floor(index/7);
-    const cellY = (_, index) => cellHeight * Math.floor(index%7);
-
-    svg.selectAll('rect')
-      .data(data)
-      .enter()
-      .append('rect')
-      .attr('width', cellWidth - 2)
-      .attr('height', cellHeight - 2)
-      .attr('fill', d => colorScale(d.impressions))
-      .attr('x', cellX)
-      .attr('y', cellY);
-  }, []);
+    createHeatmap({
+      node: gridRef.current,
+      data
+    });
+  }, [data]);
 
   return (
     <div ref={gridRef}>
