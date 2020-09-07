@@ -1,12 +1,10 @@
 import React from 'react';
-import SimpleGsap from './components/SimpleGsap';
+import SimpleGsap from '../src/components/SimpleGsap';
 
-function App() {
+export default () => {
   return (
     <div>
       <SimpleGsap></SimpleGsap>
     </div>
   );
 }
-
-export default App;
