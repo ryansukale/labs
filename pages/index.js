@@ -1,21 +1,15 @@
 import React from 'react';
 import Head from 'next/head'
 import Link from 'next/link'
+import experiments from '../data/experiments';
 
-const experiments = [
-  {
-    title: 'A github style contribution map built using D3js',
-    techologies: ['d3js'],
-    path: '/d3-heatmap'
-  }
-];
-
-function ExperimentItem({title, path}) {
+function ExperimentItem({title, path, description}) {
   return (
     <section>
       <Link href={path}>
         <a>{title}</a>
       </Link>
+      {description}
     </section>
   );
 }
@@ -25,7 +19,10 @@ export default () => {
     <div>
       Welcome to my lab.
 
-      <ExperimentItem {...experiments[0]} />
+      <ul>
+        {experiments.map(exp => <li key={exp.title}><ExperimentItem {...exp} /></li>)}
+      </ul>
+      
     </div>
   );
 }
