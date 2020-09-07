@@ -17,7 +17,8 @@
     "test": "react-scripts test",
     "develop": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "client:start": "react-scripts start"
   },
   "eslintConfig": {
     "extends": "react-app"
