@@ -3,8 +3,48 @@
 @tailwind components;
 /* purgecss end ignore */
 
-.tile {
-  @apply rounded shadow-sm border bg-white;
+.btn {
+  @apply font-medium py-2 px-3 rounded text-sm;
+}
+
+.btn-purple {
+  @apply bg-purple-500 text-white;
+}
+
+.btn-purple:hover {
+  @apply bg-purple-700;
+}
+
+.btn-gray {
+  @apply bg-gray-200 text-gray-700;
+}
+
+.btn-gray:hover {
+  @apply bg-gray-300;
+}
+
+.btn-blue {
+  @apply bg-blue-500 text-white;
+}
+
+.btn-blue:hover {
+  @apply bg-blue-700;
+}
+
+/*
+ Outline buttons
+*/
+
+.btn-outline {
+  @apply font-medium py-2 px-3 rounded text-sm border-solid border;
+}
+
+.btn-outline-purple {
+  @apply border-purple-600 text-purple-700;
+}
+
+.btn-outline-purple:hover {
+  @apply border-purple-400 text-purple-600;
 }
 
 @tailwind utilities;
