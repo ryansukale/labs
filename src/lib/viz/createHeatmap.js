@@ -30,8 +30,9 @@ export default function ({
       .data(data)
       .enter()
       .append('rect')
-      .attr('width', cellWidth - 2)
-      .attr('height', cellHeight - 2)
+      .attr('rx', 2)
+      .attr('width', cellWidth - 3)
+      .attr('height', cellHeight - 3)
       .attr('fill', d => colorScale(d.value))
       .attr('x', cellX)
       .attr('y', cellY);

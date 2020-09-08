@@ -1,28 +1,35 @@
 import React from 'react';
 import Head from 'next/head'
 import Link from 'next/link'
+import Layout from '../src/components/Layout';
 import experiments from '../data/experiments';
 
-function ExperimentItem({title, path, description}) {
+const { Tile } = require("@allegria/ixd-react");
+
+function ExperimentCard({title, path, description}) {
   return (
-    <section>
-      <Link href={path}>
-        <a>{title}</a>
-      </Link>
-      {description}
-    </section>
+    <Tile>
+      <section className="m-2">
+        <Link href={path}>
+          <a>{title}</a>
+        </Link>
+        {description}
+      </section>
+    </Tile>
   );
 }
 
-export default () => {
+
+
+export default function Index() {
   return (
-    <div>
+    <Layout>
       Welcome to my lab.
 
-      <ul>
-        {experiments.map(exp => <li key={exp.title}><ExperimentItem {...exp} /></li>)}
+      <ul className="grid md:grid-cols-2 gap-4 mx-4 md:mx-0">
+        {experiments.map(exp => <li key={exp.title}><ExperimentCard {...exp} /></li>)}
       </ul>
       
-    </div>
+    </Layout>
   );
 }
