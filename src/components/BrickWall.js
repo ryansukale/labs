@@ -1,7 +1,6 @@
 import React, {useEffect, useRef} from 'react';
-import * as d3 from "d3";
 
-import createHeatmap from '../lib/viz/createHeatmap';
+import createBrickWall from '../lib/viz/createBrickWall';
 
 import random from 'canvas-sketch-util/random';
 
@@ -69,7 +68,7 @@ export default () => {
   }));
 
   useEffect(() => {
-    createHeatmap({
+    createBrickWall({
       node: gridRef.current,
       data
     });

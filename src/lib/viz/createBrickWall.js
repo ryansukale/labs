@@ -11,11 +11,11 @@ const defaultOptions = {
     end: 'blue'
   },
   rows: 7,
-  cellWidth: 15,
-  cellHeight: 15,
-  cellSpacing: 1,
-  cellSpacingX: undefined,
-  cellSpacingY: undefined
+  brickWidth: 15,
+  brickHeight: 15,
+  brickSpacing: 1,
+  brickSpacingX: undefined,
+  brickSpacingY: undefined
 }
 
 export default function ({
@@ -27,39 +27,39 @@ export default function ({
 
   const {
     colors,
-    cellWidth,
-    cellHeight,
-    cellSpacing,
-    cellSpacingX,
-    cellSpacingY,
+    brickWidth,
+    brickHeight,
+    brickSpacing,
+    brickSpacingX,
+    brickSpacingY,
     rows
   } = {...options, ...defaultOptions};
 
-  const totalCellWidth = cellWidth + (cellSpacingX || cellSpacing);
-  const totalCellHeight = cellHeight + (cellSpacingY || cellSpacing);
+  const totalbrickWidth = brickWidth + (brickSpacingX || brickSpacing);
+  const totalbrickHeight = brickHeight + (brickSpacingY || brickSpacing);
 
-  const svgWidth = data.length/rows * totalCellWidth;
+  const svgWidth = data.length/rows * totalbrickWidth;
   
   const svg = d3.select(node)
       .append('svg')
       .attr('width', svgWidth)
-      .attr('height', rows * totalCellHeight);
+      .attr('height', rows * totalbrickHeight);
 
   const colorScale = d3.scaleLinear()
     .domain([d3.min(values), d3.max(values)])
     .range([colors.start, colors.end]);
 
-  const cellX = (_, index) => totalCellWidth * Math.floor(index/rows);
-  const cellY = (_, index) => totalCellHeight * Math.floor(index%rows);
+  const brickX = (_, index) => totalbrickWidth * Math.floor(index/rows);
+  const brickY = (_, index) => totalbrickHeight * Math.floor(index%rows);
 
   svg.selectAll('rect')
     .data(data)
     .enter()
     .append('rect')
     .attr('rx', 2)
-    .attr('width', cellWidth)
-    .attr('height', cellHeight)
+    .attr('width', brickWidth)
+    .attr('height', brickHeight)
     .attr('fill', d => colorScale(d.value))
-    .attr('x', cellX)
-    .attr('y', cellY);
+    .attr('x', brickX)
+    .attr('y', brickY);
 }
