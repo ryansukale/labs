@@ -13,7 +13,7 @@ const defaultOptions = {
   margin: {
     top: 10,
     left: 10,
-    bottom: 10,
+    bottom: 50,
     right: 10
   },
   rows: 7,
@@ -45,15 +45,16 @@ export default function ({
   const totalbrickWidth = brickWidth + (brickSpacingX || brickSpacing);
   const totalbrickHeight = brickHeight + (brickSpacingY || brickSpacing);
 
-  const svgWidth = data.length/rows * totalbrickWidth;
-
   const marginX = margin.left + margin.right;
   const marginY = margin.top + margin.bottom;
-  
+
+  const svgWidth = data.length/rows * totalbrickWidth;
+  const svgHeight = rows * totalbrickHeight + marginY;
+
   const svg = d3.select(node)
       .append('svg')
       .attr('width', svgWidth + marginX)
-      .attr('height', rows * totalbrickHeight + marginY);
+      .attr('height', svgHeight);
 
   const colorScale = d3.scaleLinear()
     .domain([d3.min(intensities), d3.max(intensities)])
@@ -61,6 +62,10 @@ export default function ({
 
   const brickX = (_, index) => margin.left + totalbrickWidth * Math.floor(index/rows);
   const brickY = (_, index) => margin.top + totalbrickHeight * Math.floor(index%rows);
+
+  const scaleX = d3.scaleLinear()
+    .domain([new Date('2020/01/01'), new Date('2020/07/31')])
+    .range([0, 1000]);
 
   svg.selectAll('rect')
     .data(data)
@@ -72,4 +77,8 @@ export default function ({
     .attr('fill', d => colorScale(d.intensity))
     .attr('x', brickX)
     .attr('y', brickY);
+
+  svg.append("g")
+    .attr("transform", `translate(${margin.left}, ${svgHeight - margin.bottom})`)
+    .call(d3.axisBottom(scaleX));
 }
