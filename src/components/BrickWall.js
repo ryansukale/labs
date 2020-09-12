@@ -64,7 +64,7 @@ export default () => {
   const columns = 7;
 
   const data = createFakeData(rows * columns).map(d => ({
-    value: d.impressions
+    intensity: d.impressions
   }));
 
   useEffect(() => {

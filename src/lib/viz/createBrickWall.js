@@ -10,6 +10,12 @@ const defaultOptions = {
     start: '#cacaca',
     end: 'blue'
   },
+  margin: {
+    top: 10,
+    left: 10,
+    bottom: 10,
+    right: 10
+  },
   rows: 7,
   brickWidth: 15,
   brickHeight: 15,
@@ -23,10 +29,11 @@ export default function ({
   data,
   options
 }) {
-  const values = data.map(d => d.value);
+  const intensities = data.map(d => d.intensity);
 
   const {
     colors,
+    margin,
     brickWidth,
     brickHeight,
     brickSpacing,
@@ -39,18 +46,21 @@ export default function ({
   const totalbrickHeight = brickHeight + (brickSpacingY || brickSpacing);
 
   const svgWidth = data.length/rows * totalbrickWidth;
+
+  const marginX = margin.left + margin.right;
+  const marginY = margin.top + margin.bottom;
   
   const svg = d3.select(node)
       .append('svg')
-      .attr('width', svgWidth)
-      .attr('height', rows * totalbrickHeight);
+      .attr('width', svgWidth + marginX)
+      .attr('height', rows * totalbrickHeight + marginY);
 
   const colorScale = d3.scaleLinear()
-    .domain([d3.min(values), d3.max(values)])
+    .domain([d3.min(intensities), d3.max(intensities)])
     .range([colors.start, colors.end]);
 
-  const brickX = (_, index) => totalbrickWidth * Math.floor(index/rows);
-  const brickY = (_, index) => totalbrickHeight * Math.floor(index%rows);
+  const brickX = (_, index) => margin.left + totalbrickWidth * Math.floor(index/rows);
+  const brickY = (_, index) => margin.top + totalbrickHeight * Math.floor(index%rows);
 
   svg.selectAll('rect')
     .data(data)
@@ -59,7 +69,7 @@ export default function ({
     .attr('rx', 2)
     .attr('width', brickWidth)
     .attr('height', brickHeight)
-    .attr('fill', d => colorScale(d.value))
+    .attr('fill', d => colorScale(d.intensity))
     .attr('x', brickX)
     .attr('y', brickY);
 }
