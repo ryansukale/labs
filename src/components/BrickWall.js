@@ -63,7 +63,8 @@ export default () => {
   const rows = weeks;
   const columns = 7;
 
-  const data = createFakeData(rows * columns).map(d => ({
+  const data = createFakeData(rows * columns).map((d, idx) => ({
+    date: addDays(idx)(firstSunday),
     intensity: d.impressions
   }));
 

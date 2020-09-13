@@ -63,9 +63,9 @@ export default function ({
   const brickX = (_, index) => margin.left + totalbrickWidth * Math.floor(index/rows);
   const brickY = (_, index) => margin.top + totalbrickHeight * Math.floor(index%rows);
 
-  const scaleX = d3.scaleLinear()
-    .domain([new Date('2020/01/01'), new Date('2020/07/31')])
-    .range([0, 1000]);
+  const scaleX = d3.scaleTime()
+    .domain(d3.extent(data.map(d => d.date)))
+    .range([margin.left, svgWidth - margin.right]);
 
   svg.selectAll('rect')
     .data(data)
