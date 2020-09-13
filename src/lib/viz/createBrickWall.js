@@ -78,7 +78,12 @@ export default function ({
     .attr('x', brickX)
     .attr('y', brickY);
 
-  svg.append("g")
+  const xAxis = svg.append("g")
     .attr("transform", `translate(${margin.left}, ${svgHeight - margin.bottom})`)
     .call(d3.axisBottom(scaleX));
+  
+  xAxis.selectAll('line')
+    .attr('stroke', 'transparent');
+
+  xAxis.select(".domain").remove();
 }
