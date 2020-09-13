@@ -53,7 +53,7 @@ function createFakeData(count) {
 }
 
 export default () => {
-  const gridRef = useRef();
+  const svgRef = useRef();
 
   const weeks = 52;
   const today = new Date();
@@ -70,13 +70,13 @@ export default () => {
 
   useEffect(() => {
     createBrickWall({
-      node: gridRef.current,
+      element: svgRef.current,
       data
     });
   }, [data]);
 
   return (
-    <div ref={gridRef}>
-    </div>
+    <svg ref={svgRef}>
+    </svg>
   );
 }

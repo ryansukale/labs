@@ -25,7 +25,7 @@ const defaultOptions = {
 }
 
 export default function ({
-  node,
+  element,
   data,
   options
 }) {
@@ -51,11 +51,10 @@ export default function ({
   const svgWidth = data.length/rows * totalbrickWidth;
   const svgHeight = rows * totalbrickHeight + marginY;
 
-  const svg = d3.select(node)
-      .append('svg')
+  const svg = d3.select(element)
       .attr('width', svgWidth + marginX)
       .attr('height', svgHeight);
-
+  
   const colorScale = d3.scaleLinear()
     .domain([d3.min(intensities), d3.max(intensities)])
     .range([colors.start, colors.end]);
@@ -78,12 +77,15 @@ export default function ({
     .attr('x', brickX)
     .attr('y', brickY);
 
+
+  const xAxisClass = 'axis-x';
+  svg.selectAll(`.${xAxisClass}`).remove();
+
   const xAxis = svg.append("g")
+    .attr('class', `${xAxisClass}`)
     .attr("transform", `translate(${margin.left}, ${svgHeight - margin.bottom})`)
     .call(d3.axisBottom(scaleX));
   
-  xAxis.selectAll('line')
-    .attr('stroke', 'transparent');
-
+  xAxis.selectAll('line').remove();
   xAxis.select(".domain").remove();
 }
