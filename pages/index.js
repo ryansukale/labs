@@ -8,10 +8,10 @@ const { Tile } = require("@allegria/ixd-react");
 
 
 
-function ExperimentCard({title, path, excerpt, preview}) {
+function ExperimentCard({title, path, excerpt, image}) {
   return (
     <div className="rounded shadow-md bg-white overflow-hidden">
-      <img className="h-48 p-6 w-full" src={preview} alt=""/>
+      <img className="h-48 p-6 w-full object-cover" src={image} alt=""/>
       <div className="relative" style={{height: '240px'}}>
         <div className="bg-gray-200 border-b-2 border-indigo-400 hover:border-indigo-700 py-2">
           <a href={path} rel="noopener noreferrer" className="block mt-1 text-lg leading-tight truncate px-4 text-indigo-600 text-center hover:text-indigo-500 align-middle">
@@ -23,12 +23,9 @@ function ExperimentCard({title, path, excerpt, preview}) {
           {excerpt}
         </div>
       </div>
-      </div>
-    
+    </div>
   );
 }
-
-
 
 export default function Index() {
   return (
