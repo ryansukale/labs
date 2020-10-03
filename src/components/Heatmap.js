@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 
-import createBrickWall from '../lib/viz/createBrickWall';
+import renderHeatmap from '../lib/viz/renderHeatmap';
 
 import random from 'canvas-sketch-util/random';
 
@@ -52,7 +52,7 @@ function createFakeData(count) {
   });
 }
 
-export default () => {
+export default function Heatmap() {
   const svgRef = useRef();
 
   const weeks = 52;
@@ -69,7 +69,7 @@ export default () => {
   }));
 
   useEffect(() => {
-    createBrickWall({
+    renderHeatmap({
       element: svgRef.current,
       data
     });
