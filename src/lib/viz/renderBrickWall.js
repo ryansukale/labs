@@ -36,7 +36,9 @@ export function getBrickWallDimensions({
     brickSpacingX,
     brickSpacingY,
     rows
-  } = {...options, ...defaultOptions};
+  } = {...defaultOptions, ...options};
+
+  console.log('brickWidth', brickWidth);
 
   const totalbrickWidth = brickWidth + (brickSpacingX || brickSpacing);
   const totalbrickHeight = brickHeight + (brickSpacingY || brickSpacing);
@@ -93,13 +95,14 @@ export default function renderBrickWall({
     svgHeight
   } = getBrickWallDimensions({data, options});
 
+  console.log('options', options)
   const {
     colors,
     margin,
     brickWidth,
     brickHeight,
     rows
-  } = {...options, ...defaultOptions};
+  } = {...defaultOptions, ...options};
 
   const svg = d3.select(element)
       .attr('width', svgWidth + marginX)
