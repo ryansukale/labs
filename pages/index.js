@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Layout from '../src/components/Layout';
 import experiments from '../data/experiments';
 
-const { Tile } = require("@allegria/ixd-react");
+// const { Tile } = require("@allegria/ixd-react");
 
 
 
